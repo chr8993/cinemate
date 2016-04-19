@@ -5,7 +5,7 @@ module.exports = function(app) {
     var moment = require('moment');
     var format = "YYYY-MM-DD hh:mm:s";
     
-    app.get('/movies', function(req, res) {
+    app.get('/movies/', function(req, res) {
         Movie.getMovies()
         .then(function(data) {
             if(data) {
@@ -13,10 +13,9 @@ module.exports = function(app) {
             }
         });
     });
+
     
-    app.put('/movies', function() {});
-    
-    app.get('/movies/:id', function(req, res) {
+    app.get('/movies/:id/', function(req, res) {
         if(req.params.id) {
             var id = req.params.id;
             Movie.getMovie(id)
@@ -28,7 +27,18 @@ module.exports = function(app) {
         }
     });
     
-    app.post('/movies/:id', function() { });
+    app.post('/movies/:id/', function(req, res) {
+        if(req.params.id) {
+            var id = req.params.id;
+            var data = req.body;
+            Movie.updateMovie(data)
+            .then(function(r) {
+                if(r) {
+                    res.send(r);
+                }
+            });
+        }
+    });
     
     app.delete('/movies/:id', function(req, res) {
         if(req.params.id) {
@@ -41,11 +51,21 @@ module.exports = function(app) {
             }); 
         }
     });
+
     
-    app.get('/movies/recent/', function(req, res) {
-        
+    app.get('/movies/search/all/?', function(req, res) {
+        if(req.query.q) {
+            var query = req.query.q;
+            Movie.searchMovie(query)
+            .then(function(data) {
+                if(data) {
+                    res.send(data);
+                }
+            });
+        }
     });
     
+
     app.get('/movies/top/:count', 
         function(req, res) {
             if(req.params.count) {
