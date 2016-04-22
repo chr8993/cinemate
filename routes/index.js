@@ -1,4 +1,5 @@
 module.exports = function(app) {
+    require('./auth')(app);
     app.get('/', function(req, res) {
         var stat = {};
         res.send(JSON.stringify(stat));

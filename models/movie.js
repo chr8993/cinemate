@@ -1,6 +1,7 @@
 /**
- * 
- * @name Movie 
+ * @module Cinemate
+ * @name Movie
+ * @ngdoc Model
  * @desc Model to 
  * manage database
  * entries for movie 
