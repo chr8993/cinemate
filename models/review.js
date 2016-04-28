@@ -1,9 +1,16 @@
 /**
  * 
- * @name Review 
+ * @name Review
+ * @ngdoc Models
  * @desc Model to 
  * manage database
  * entries for reviews
+ * @property {ObjectID} _id
+ * @property {ObjectID} _movieId
+ * @property {ObjectID} _userId
+ * @property {String} content
+ * @property {Number} deleted
+ * @property {Date} lastUpdated
  * 
  */
 var mongoose = require('mongoose');

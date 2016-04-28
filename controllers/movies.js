@@ -1,19 +1,14 @@
 var db     = require('../models');
-var Movie  = db.movieModel;
-var f      = "YYYY-MM-DD hh:mm:ss";
+var client = require('../config/redis');
 var $q     = require('q');
 var moment = require('moment');
-var redis  = require('redis');
-var opts   = {
-    host: "127.0.0.1",
-    port: 6379,
-    auth_pass: "!Cin3m4t3"
-};
-var client = redis.createClient(opts);
+var Movie  = db.movieModel;
+var f      = "YYYY-MM-DD hh:mm:ss";
 
 /**
  *
  * @function getMovies
+ * @memberof Movie
  * @desc Fetch movies
  * from database limited
  * to first 20
@@ -39,7 +34,8 @@ exports.getMovies = function() {
 
 /**
  * 
- * @function getMovie 
+ * @function getMovie
+ * @memberof Movie
  * @desc Will fetch a 
  * single movie by id
  * @param {objectId} id
@@ -67,6 +63,7 @@ exports.getMovie = function(id) {
 /**
  * 
  * @function updateMovie
+ * @memberof Movie
  * @desc Will update a
  * movie with given post
  * data
@@ -120,7 +117,8 @@ exports.removeMovie = function(id) {
 
 /**
  * 
- * @function getTop 
+ * @function getTop
+ * @memberof Movie
  * @desc Will fetch
  * top movies based
  * off of imdb votes
@@ -169,6 +167,7 @@ exports.getTop = function(top) {
 /**
  * 
  * @function searchMovie
+ * @memberof Movie
  * @param {String} query
  * @desc Will search 
  * for a specific movie

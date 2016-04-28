@@ -1,9 +1,17 @@
 /**
  * 
- * @name User 
+ * @name User
+ * @ngdoc Models
  * @desc Model to 
  * manage database
  * entries for users
+ * @property {ObjectID} _id
+ * @property {String} firstName
+ * @property {String} lastName
+ * @property {String} email
+ * @property {String} image
+ * @property {Number} deleted
+ * @property {Date} lastUpdated
  * 
  */
 var mongoose = require('mongoose');

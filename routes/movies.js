@@ -1,7 +1,9 @@
 module.exports = function(app) {
     
-    var path   = "../controllers/movies"; 
+    var path   = "../controllers/movies";
+    var rpath  = "../controllers/reviews";
     var Movie  = require(path);
+    var Review = require(rpath);
     var moment = require('moment');
     var format = "YYYY-MM-DD hh:mm:s";
     
@@ -19,6 +21,18 @@ module.exports = function(app) {
         if(req.params.id) {
             var id = req.params.id;
             Movie.getMovie(id)
+            .then(function(data) {
+                if(data) {
+                    res.send(data);
+                }
+            });
+        }
+    });
+    
+    app.get('/movies/:id/reviews', function(req, res) {
+        if(req.params.id) {
+            var id = req.params.id;
+            Review.getReviews(id)
             .then(function(data) {
                 if(data) {
                     res.send(data);
