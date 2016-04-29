@@ -79,20 +79,21 @@ exports.remove = function(id) {
  * users
  * 
  */
-/*exports.getAll = function() {
-    var d = q.defer();
-    var r = {};
-    r.email = 1;
-    r.firstName = 1;
-    r.lastName = 1;
-    r._id = 1;
-    User.find({ deleted: 0 }, r,
-    function(err, users) {
-        if(users) {
-            d.resolve(users);
-        } else {
-            d.resolve(false);
-        }
-    });
-    return d.promise;
-};*/
+// exports.getAll = function() {
+//     var d = q.defer();
+//     var r = {};
+//     r.email = 1;
+//     r.firstName = 1;
+//     r.lastName = 1;
+//     r._id = 1;
+//     r.image = 1;
+//     User.find({ deleted: 0 }, r,
+//     function(err, users) {
+//         if(users) {
+//             d.resolve(users);
+//         } else {
+//             d.resolve(false);
+//         }
+//     });
+//     return d.promise;
+// };

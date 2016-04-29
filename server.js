@@ -5,6 +5,7 @@ var app         = express();
 var util        = require('./util');
 var bodyParser  = require('body-parser');
 var session     = require('express-session');
+var path        = require('path');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

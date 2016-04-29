@@ -6,14 +6,6 @@ module.exports = function(app) {
     
     var users = [];
     
-    app.get('/users', function(req, res) {
-        User.getAll().then(function(r) {
-            if(r) {
-                res.send(r);
-            };
-        })
-    });
-    
     app.post('/users', function(req, res) {
         if(req.body) {
             var user = req.body;
@@ -30,6 +22,17 @@ module.exports = function(app) {
     passport.authenticate('local'), 
     function(req, res) {
         res.send({_status: "success"});
+    });
+    
+    app.get('/auth/facebook', passport.authenticate('facebook', {
+        scope: [ 'email', 'public_profile'],
+        profileFields: ['id', 'displayName', 'photos', 'emails', 'birthday']
+    }));
+    
+    app.get('/auth/facebook/callback', 
+    passport.authenticate('facebook'),
+      function(req, res) {
+        res.send({_status: "Success"});
     });
     
 };
