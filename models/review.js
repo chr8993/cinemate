@@ -17,8 +17,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 var reviewSchema = new Schema({
-    _movieId: ObjectId,
-    _userId: ObjectId,
+    _movie: {
+        type: ObjectId,
+        ref: 'Movie'
+    },
+    _creator: {
+        type: ObjectId,
+        ref: 'User'
+    },
     content: String,
     deleted: {
         type: Number,

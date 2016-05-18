@@ -21,7 +21,8 @@ module.exports = function(app) {
     app.post('/login', 
     passport.authenticate('local'), 
     function(req, res) {
-        res.send({_status: "success"});
+        var url = "http://107.170.8.238";
+        res.redirect(url + "/#/movies/");
     });
     
     app.get('/auth/facebook', passport.authenticate('facebook', {
@@ -32,7 +33,8 @@ module.exports = function(app) {
     app.get('/auth/facebook/callback', 
     passport.authenticate('facebook'),
       function(req, res) {
-        res.send({_status: "Success"});
+        var url = "http://107.170.8.238:8100";
+        res.redirect(url + "/#/movies/");
     });
     
 };

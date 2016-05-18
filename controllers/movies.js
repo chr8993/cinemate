@@ -3,6 +3,7 @@ var client = require('../config/redis');
 var $q     = require('q');
 var moment = require('moment');
 var Movie  = db.movieModel;
+var Review = db.reviewModel;
 var f      = "YYYY-MM-DD hh:mm:ss";
 
 /**
@@ -48,12 +49,12 @@ exports.getMovie = function(id) {
     res._timestamp = t;
     res._data = false;
     if(id) {
-        Movie.findById(id, 
-            function(err, r) {
-                res._data = r;
-                d.resolve(res);
-            }
-        );           
+        Movie
+        .findById(id)
+        .exec(function(err, r) {
+            res._data = r;
+            d.resolve(res);
+        });           
     } else {
         d.resolve(res);
     }

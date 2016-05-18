@@ -3,6 +3,7 @@ var client  = require('../config/redis');
 var $q      = require('q');
 var moment  = require('moment');
 var Review  = db.reviewModel;
+var Movie   = db.movieModel;
 var strip   = require('striptags');
 
 /**
@@ -19,8 +20,9 @@ exports.getReviews = function(movieId) {
     var d = $q.defer();
     if(movieId) {
         Review
-        .find({ _movieId: movieId, deleted: 0 })
+        .find({ _movie: movieId, deleted: 0 })
         .sort({ lastUpdated: -1 })
+        .populate('_creator')
         .exec(function(err, r) {
             if(r) {
                d.resolve(r);
@@ -67,11 +69,13 @@ exports.getAll = function() {
 exports.getReview = function(id) {
     var d = $q.defer();
     if(id) {
-        Review.findById(id, 
-            function(err, r) {
-                d.resolve(r);
-            }
-        );           
+        Review
+        .findById(id)
+        .populate('_movie')
+        .populate('_creator')
+        .exec(function(err, r) {
+            d.resolve(r);
+        });           
     } else {
         d.resolve(false);
     }
@@ -93,6 +97,8 @@ exports.getUser = function(userId) {
     if(userId) {
         Review
         .find({ _userId: userId })
+        .populate('_movie')
+        .populate('_creator')
         .sort({ lastUpdated: -1 })
         .exec(function(err, r) {
             if(r) {
@@ -122,12 +128,16 @@ exports.addReview = function(review) {
        && review._movieId 
        && review.content) {
             var t = {};
-            t._userId = review._userId;
-            t._movieId = review._movieId;
+            t._creator = review._userId;
+            t._movie = review._movieId;
             //strip html tags
             t.content = strip(review.content);
-            var r = new Review(t);
-            d.resolve(r);
+            Review.create(t, function(err, res) {
+                if(res) {
+                    d.resolve(res);
+                }
+            });
+            // d.resolve(r);
        } 
        else {
           d.resolve(false);       
@@ -159,12 +169,12 @@ exports.editReview = function(review) {
             .findById(review._id)
             .exec()
             .then(function(r) {
-                var rId = r._userId;
+                var rId = r._creator;
                 var mId = review._userId;
                 if(rId == mId) {
                     var t = {};
-                    t._userId = review._userId;
-                    t._movieId = review._movieId;
+                    t._creator = review._userId;
+                    t._movie = review._movieId;
                     t._id = review._id;
                     //strip html tags
                     t.content = strip(review.content);
@@ -212,7 +222,7 @@ exports.removeReview = function(userId, id) {
         .findById(id)
         .exec()
         .then(function(r) {
-            var uId = r._userId;
+            var uId = r._creator;
             var mId = userId;
             if(uId == mId) {
                 Review.update({ _id: id, 

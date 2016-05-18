@@ -28,6 +28,7 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 var movieSchema = new Schema({
     imdbID: String,
     title:  String,
