@@ -1,5 +1,4 @@
 var db      = require('../models');
-var client  = require('../config/redis');
 var $q      = require('q');
 var moment  = require('moment');
 var Review  = db.reviewModel;
