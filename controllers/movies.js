@@ -1,10 +1,10 @@
 var db     = require('../models');
-var client = require('../config/redis');
 var $q     = require('q');
 var moment = require('moment');
 var Movie  = db.movieModel;
 var Review = db.reviewModel;
 var f      = "YYYY-MM-DD hh:mm:ss";
+//var client = require('../config/redis');
 
 /**
  *
@@ -135,29 +135,17 @@ exports.getTop = function(top) {
     var path = "/movies/";
     path += "top/" + top;
     if(top) {
-        client.get(path, 
-            function(err, c) {
-            if(c != null) {
-                var data = JSON.parse(c);
-                res._data = data;
+        Movie
+        .find()
+        .sort({imdbVotes: -1})
+        .limit(top)
+        .exec(function(err, r) {
+            if(err) { console.log(err); }
+            if(r) {
+                res._data = r;
                 d.resolve(res);
-            } 
-            else {
-                Movie
-                .find()
-                .sort({imdbVotes: -1})
-                .limit(top)
-                .exec(function(err, r) {
-                    if(err) { console.log(err); }
-                    if(r) {
-                        res._data = r;
-                        client.set(path, 
-                        JSON.stringify(r));
-                        d.resolve(res);
-                    }
-                });    
             }
-        });
+        });    
     }
     else {
         d.resolve(false);
