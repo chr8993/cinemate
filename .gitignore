@@ -1,3 +1,5 @@
 node_modules/
 docs/
 .c9/
+app.js
+transition.js
